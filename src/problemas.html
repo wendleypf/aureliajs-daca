@@ -1,0 +1,30 @@
+<template>
+    <div class="table-responsive">
+    <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Problem</th>
+                <th>Description</th>
+                <th>Key</th>
+                <th>Created</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr repeat.for="problems of allProblems">
+                <td><a href="#">${problems.nome}</a></td>
+                <td><a href="#">${problems.descricao}</a></td>
+                <td><a href="#">${problems.id}</a></td>
+                <td>${problems.data}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-12 text-center">
+        <ul class="pagination pagination-lg">
+            <!--<li><a href="#" id="btnPrev" disabled.bind=disableStart value="<" click.delegate = "prevProblems()"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></a></li>-->
+            <!--<li><a href="#" id="btnNext" disabled.bind=disableEnd value=">" click.delegate = "nextProblems()"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a></li>-->
+            <li><input type="button" id="btnPrev" class="btn btn-lg" disabled.bind=disableStart value="<" click.delegate = "prevProblems()"/></li>
+            <li><input type="button" id="btnNext" class="btn btn-lg" disabled.bind=disableEnd value=">" click.delegate = "nextProblems()"/></li>
+        </ul>
+    </div>
+</template>
