@@ -10,11 +10,14 @@
             </tr>
             </thead>
             <tbody>
-            <tr repeat.for="problems of allProblems">
-                <td><a href="#">${problems.nome}</a></td>
-                <td><a href="#">${problems.descricao}</a></td>
-                <td><a href="#">${problems.id}</a></td>
-                <td>${problems.data}</td>
+            <tr repeat.for="problem of allProblems">
+                <td><a route-href="route: detalhes-problema;
+                            params.bind: {id:problem.id}">${problem.nome}</a></td>
+                <td><a route-href="route: detalhes-problema;
+                            params.bind: {id:problem.id}">${problem.descricao}</a></td>
+                <td><a route-href="route: detalhes-problema;
+                            params.bind: {id:problem.id}">${problem.id}</a></td>
+                <td>${problem.data}</td>
             </tr>
             </tbody>
         </table>

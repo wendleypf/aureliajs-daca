@@ -36,12 +36,56 @@ define('app',['exports', 'aurelia-framework', 'aurelia-fetch-client'], function 
 
             config.map([{ route: ['', 'home'], name: 'home',
                 moduleId: './home', nav: true, title: 'Welcome' }, { route: 'problemas', name: 'problemas',
-                moduleId: './problemas', nav: true, title: 'Problems' }]);
+                moduleId: './problemas', nav: true, title: 'Problems' }, {
+                route: 'problema/:id',
+                name: 'detalhes-problema',
+                moduleId: './detalhes-problema',
+                nav: false,
+                title: 'Problema'
+            }]);
 
             this.router = router;
         };
 
         return App;
+    }()) || _class);
+});
+define('detalhes-problema',['exports', 'aurelia-framework', 'aurelia-fetch-client'], function (exports, _aureliaFramework, _aureliaFetchClient) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.Detalhes = undefined;
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var _dec, _class;
+
+    var Detalhes = exports.Detalhes = (_dec = (0, _aureliaFramework.inject)(_aureliaFetchClient.HttpClient), _dec(_class = function () {
+        function Detalhes(http) {
+            _classCallCheck(this, Detalhes);
+
+            this.problema = '';
+
+            this.http = http;
+        }
+
+        Detalhes.prototype.activate = function activate(params) {
+            var _this = this;
+
+            this.http.fetch('problem/' + params.id).then(function (response) {
+                return response.json();
+            }).then(function (data) {
+                _this.problema = data;
+            });
+        };
+
+        return Detalhes;
     }()) || _class);
 });
 define('environment',["exports"], function (exports) {
@@ -228,7 +272,8 @@ define('resources/index',["exports"], function (exports) {
   exports.configure = configure;
   function configure(config) {}
 });
-define('text!app.html', ['module'], function(module) { module.exports = "<template>\n    <div class=\"container\">\n        <div id=\"custom-bootstrap-menu\" class=\"navbar navbar-default \"\n             role=\"navigation\">\n            <div class=\"container-fluid\">\n                <div class=\"navbar-header\">\n                    <a class=\"navbar-brand\" href=\"/\"><span class=\"glyphicon glyphicon-home\" aria-hidden=\"true\"></span> Dirlididi</a>\n                    <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\"\n                            data-target=\".navbar-menubuilder\">\n                        <span class=\"sr-only\">Toggle navigation</span><span\n                            class=\"icon-bar\"></span><span class=\"icon-bar\"></span><span\n                            class=\"icon-bar\"></span>\n                    </button>\n                </div>\n                <div class=\"collapse navbar-collapse navbar-menubuilder\">\n                    <ul class=\"nav navbar-nav navbar-left\">\n                        <li repeat.for = \"row of router.navigation\">\n                            <a href.bind = \"row.href\">${row.title}</a>\n                        </li>\n                    </ul>\n                    <ul class=\"nav navbar-nav navbar-right\">\n                        <li><a href=\"#\">Login</a></li>\n                    </ul>\n                </div>\n            </div>\n        </div>\n        <router-view></router-view>\n    </div>\n</template>\n"; });
+define('text!app.html', ['module'], function(module) { module.exports = "<template>\r\n    <div class=\"container\">\r\n        <div id=\"custom-bootstrap-menu\" class=\"navbar navbar-default \"\r\n             role=\"navigation\">\r\n            <div class=\"container-fluid\">\r\n                <div class=\"navbar-header\">\r\n                    <a class=\"navbar-brand\" href=\"/\"><span class=\"glyphicon glyphicon-home\" aria-hidden=\"true\"></span> Dirlididi</a>\r\n                    <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\"\r\n                            data-target=\".navbar-menubuilder\">\r\n                        <span class=\"sr-only\">Toggle navigation</span><span\r\n                            class=\"icon-bar\"></span><span class=\"icon-bar\"></span><span\r\n                            class=\"icon-bar\"></span>\r\n                    </button>\r\n                </div>\r\n                <div class=\"collapse navbar-collapse navbar-menubuilder\">\r\n                    <ul class=\"nav navbar-nav navbar-left\">\r\n                        <li repeat.for = \"row of router.navigation\">\r\n                            <a href.bind = \"row.href\">${row.title}</a>\r\n                        </li>\r\n                    </ul>\r\n                    <ul class=\"nav navbar-nav navbar-right\">\r\n                        <li><a href=\"#\">Login</a></li>\r\n                    </ul>\r\n                </div>\r\n            </div>\r\n        </div>\r\n        <router-view></router-view>\r\n    </div>\r\n</template>\r\n"; });
+define('text!detalhes-problema.html', ['module'], function(module) { module.exports = "<template>\r\n  <div class=\"\">\r\n    <h1 class=\"title\">${problema.nome}</h1>\r\n  </div>\r\n  <div>\r\n    <p><strong>Key:${problema.id}</strong></p>\r\n    <p><strong>Descrição: ${problema.descricao}</strong></p>\r\n    <p><strong>Dica: ${problema.dica}</strong></p>\r\n    <p><strong>Testes Públicos</strong></p>\r\n    <div repeat.for=\"teste of problema.testes\">\r\n      <table class=\"table table-striped\">\r\n            <thead>\r\n            <tr>\r\n                <th>Input</th>\r\n                <th>Output</th>\r\n            </tr>\r\n            </thead>\r\n            <tbody>\r\n            <tr>\r\n                <td><p>${teste.entrada}</p></td>\r\n                <td><p>${teste.saida}</p></td>\r\n            </tr>\r\n            </tbody>\r\n        </table>\r\n      </div>\r\n  </div>\r\n</template>\r\n"; });
 define('text!home.html', ['module'], function(module) { module.exports = "<template>\r\n    <div class=\"jumbotron\">\r\n        <h1>Solve problems to learn program skills!</h1>\r\n        <h2>Global Stats</h2>\r\n        <ul>\r\n            <li>${problems} problems</li>\r\n            <li>${submitters} submitters</li>\r\n        </ul>\r\n        <h2>Your stats!</h2>\r\n        <ul>\r\n            <li>problems solved</li>\r\n        </ul>\r\n    </div>\r\n</template>"; });
-define('text!problemas.html', ['module'], function(module) { module.exports = "<template>\r\n    <div class=\"table-responsive\">\r\n    <table class=\"table table-striped\">\r\n            <thead>\r\n            <tr>\r\n                <th>Problem</th>\r\n                <th>Description</th>\r\n                <th>Key</th>\r\n                <th>Created</th>\r\n            </tr>\r\n            </thead>\r\n            <tbody>\r\n            <tr repeat.for=\"problems of allProblems\">\r\n                <td><a href=\"#\">${problems.nome}</a></td>\r\n                <td><a href=\"#\">${problems.descricao}</a></td>\r\n                <td><a href=\"#\">${problems.id}</a></td>\r\n                <td>${problems.data}</td>\r\n            </tr>\r\n            </tbody>\r\n        </table>\r\n    </div>\r\n    <div class=\"col-md-12 text-center\">\r\n        <ul class=\"pagination pagination-lg\">\r\n            <!--<li><a href=\"#\" id=\"btnPrev\" disabled.bind=disableStart value=\"<\" click.delegate = \"prevProblems()\"><span class=\"glyphicon glyphicon-chevron-left\" aria-hidden=\"true\"></span></a></li>-->\r\n            <!--<li><a href=\"#\" id=\"btnNext\" disabled.bind=disableEnd value=\">\" click.delegate = \"nextProblems()\"><span class=\"glyphicon glyphicon-chevron-right\" aria-hidden=\"true\"></span></a></li>-->\r\n            <li><input type=\"button\" id=\"btnPrev\" class=\"btn btn-lg\" disabled.bind=disableStart value=\"<\" click.delegate = \"prevProblems()\"/></li>\r\n            <li><input type=\"button\" id=\"btnNext\" class=\"btn btn-lg\" disabled.bind=disableEnd value=\">\" click.delegate = \"nextProblems()\"/></li>\r\n        </ul>\r\n    </div>\r\n</template>"; });
+define('text!problemas.html', ['module'], function(module) { module.exports = "<template>\r\n    <div class=\"table-responsive\">\r\n    <table class=\"table table-striped\">\r\n            <thead>\r\n            <tr>\r\n                <th>Problem</th>\r\n                <th>Description</th>\r\n                <th>Key</th>\r\n                <th>Created</th>\r\n            </tr>\r\n            </thead>\r\n            <tbody>\r\n            <tr repeat.for=\"problem of allProblems\">\r\n                <td><a route-href=\"route: detalhes-problema;\r\n                            params.bind: {id:problem.id}\">${problem.nome}</a></td>\r\n                <td><a route-href=\"route: detalhes-problema;\r\n                            params.bind: {id:problem.id}\">${problem.descricao}</a></td>\r\n                <td><a route-href=\"route: detalhes-problema;\r\n                            params.bind: {id:problem.id}\">${problem.id}</a></td>\r\n                <td>${problem.data}</td>\r\n            </tr>\r\n            </tbody>\r\n        </table>\r\n    </div>\r\n    <div class=\"col-md-12 text-center\">\r\n        <ul class=\"pagination pagination-lg\">\r\n            <li><input type=\"button\" id=\"btnPrev\" class=\"btn btn-lg\" disabled.bind=disableStart value=\"<\" click.delegate = \"prevProblems()\"/></li>\r\n            <li><input type=\"button\" id=\"btnNext\" class=\"btn btn-lg\" disabled.bind=disableEnd value=\">\" click.delegate = \"nextProblems()\"/></li>\r\n        </ul>\r\n    </div>\r\n</template>\r\n"; });
 //# sourceMappingURL=app-bundle.js.map

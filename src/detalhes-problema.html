@@ -1,0 +1,27 @@
+<template>
+  <div class="">
+    <h1 class="title">${problema.nome}</h1>
+  </div>
+  <div>
+    <p><strong>Key:${problema.id}</strong></p>
+    <p><strong>Descrição: ${problema.descricao}</strong></p>
+    <p><strong>Dica: ${problema.dica}</strong></p>
+    <p><strong>Testes Públicos</strong></p>
+    <div repeat.for="teste of problema.testes">
+      <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Input</th>
+                <th>Output</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><p>${teste.entrada}</p></td>
+                <td><p>${teste.saida}</p></td>
+            </tr>
+            </tbody>
+        </table>
+      </div>
+  </div>
+</template>
